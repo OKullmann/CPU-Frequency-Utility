@@ -26,19 +26,6 @@
 
 TITLE="CPU Frequency Utility - Version 1.10"
 
-#
-# Written for the openSUSE forums on Sunday July 10, 2011
-#
-
-#
-# Copy and Paste the text of this script into a text editor and save 
-# it as the file cfu in the /home area bin folder 
-# example is: /home/username/bin, also known as ~/bin
-# This script must be marked executable to be used.  Please  
-# run the following Terminal command: chmod +x ~/bin/cfu
-# To use cfu, open a terminal session and type in: cfu
-#
-
 declare -a governs
 declare -a spdsteps
 
