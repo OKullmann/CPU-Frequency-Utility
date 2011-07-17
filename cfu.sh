@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # CFU is designed to run the cpufrequtils package in openSUSE.
-# Copyright (C) 2011 by James D. McDaniel, jmcdaniel3@austin.rr.com
+# Copyright (C) 2011 by James D. McDaniel, Oliver Kullmann
+# (jmcdaniel3@austin.rr.com)
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
@@ -16,9 +17,9 @@
 
 #: Title       : cfu - CPU Frequency Utility
 #: Date Created: Wed Jun 22 17:03:27 CDT 2011
-#: Last Edit   : Sun Jul 10 09:10:00 CDT 2011
-#: Author      : J. McDaniel
-#: Version     : 1.10
+#: Last Edit   : Sun Jul 18 2011
+#: Authors     : J. McDaniel, Oliver Kullmann
+#: Version     : 1.11
 #: Description : display and set CPU Frequency
 #: Options     : [sudo] cfu [-s #2 #3 #4]
 #: Notes       : cfu will ask to install cpufrequtils if not installed
