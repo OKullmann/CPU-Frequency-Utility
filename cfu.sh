@@ -1,5 +1,19 @@
 #!/bin/bash
 
+# CFU is designed to run the cpufrequtils package in openSUSE.
+# Copyright (C) 2011 by James D. McDaniel, jmcdaniel3@austin.rr.com
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
 #: Title       : cfu - CPU Frequency Utility
 #: Date Created: Wed Jun 22 17:03:27 CDT 2011
 #: Last Edit   : Sun Jul 10 09:10:00 CDT 2011
@@ -28,61 +42,22 @@ declare -a governs
 declare -a spdsteps
 
 #
-# Display GPL Standard Statement
-#
-
-function show_gpl {
-tput clear
-echo
-echo "CFU is designed to run the cpufrequtils package in openSUSE."
-echo "Copyright (C) 2011 by James D. McDaniel, jmcdaniel3@austin.rr.com"
-echo
-echo "This program is free software; you can redistribute it and/or modify"
-echo "it under the terms of the GNU General Public License as published by"
-echo "the Free Software Foundation; either version 2 of the License, or"
-echo "(at your option) any later version."
-echo 
-echo "This program is distributed in the hope that it will be useful,"
-echo "but WITHOUT ANY WARRANTY; without even the implied warranty of"
-echo "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the"
-echo "GNU General Public License for more details."
-echo 
-echo "You should have received a copy of the GNU General Public License"
-echo "along with this program; if not, write to the Free Software"
-echo "Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA"
-echo
-}
-
-#
 # CFU Help Display Function
 #
 
 function help {
-tput clear
     cat << EOFHELP
                      $TITLE
-
 C.F.U. requires no Startup Options, However if you use them, your choices are:
-
 cfu [-h --help] ; shows this help <OR> cfu [-s [#2 #3 #4]] ; selects CPU speed
-
 -s = Select Governor
-
 #2 = Governor's per menu options 1 through 5
-
 #3 = q to Quit cfu <OR> #3 = userspace Governor speed options 1 to max speed #
-
 #4 = q to Quit when Governor was userspace
-
 Examples: [sudo] cfu -s 5 q  <OR>  [sudo] cfu -s 2 1 q
-
 NOTES: To Change your CPU Governor and CPU Speed requires root user authority.
        Using C.F.U. requires that you have installed the cpufrequtils package.
-
 EOFHELP
-echo -n "             Press <enter> to read the GPL Statement for C.F.U.:"
-read CHOICE
-show_gpl
 exit 0
 }
 
@@ -99,7 +74,6 @@ esac
 #
 
 if [ $(($(find /sys/devices/system/cpu/cpu*/cpufreq 2>/dev/null | wc -l) + $(ls /sys/devices/system/cpu/cpufreq 2>/dev/null | wc -l))) -eq 0 ] ; then
-  tput clear
   echo "The cpufreq Utilities will not work on this PC.  You may want to uninstall the cpufrequtils package if installed!"
   exit 1
 fi
@@ -189,67 +163,23 @@ return ${place}
 }
 
 #
-# Display All Text in Color as requested
-#
-# syntax: print_color line col fgrd_color bgrd_color #lines "text"...
-#
-# 0: Black 1: Blue 2: Green 3: Cyan 4: Red  5: Magenta 6: Yellow 7: White
-#
-
-function print_color {
-  WIDTH=$(tput cols)
-  HEIGHT=$(tput lines)
-  line_os=0
-  if [ $(($WIDTH)) -le  80  ] ; then
-    col_os=0
-  else
-    col_os=$((($WIDTH - 80) / 2 ))
-  fi
-  s_line=${1}
-  s_col=${2}
-  fgrd=${3}
-  bgrd=${4}
-  maxnum=${5}
-  counter=0
-  while [ $(( counter )) -lt $(( maxnum )) ] ; do
-    tput cup $(( s_line + counter + line_os)) $(( s_col + col_os ))
-    tput bold
-    tput setf $(( fgrd ))
-    tput setb $(( bgrd ))
-    echo -n "${6}$(tput sgr0)"
-    let counter=counter+1
-    shift
-  done
-}
-
-#
 # Display Main Menu function
 #
 
 function main_menu {
-tput clear
-print_color 2 0 7 2 1 "                   $TITLE                    "
-l1="---------------------------------------------------------------------------"
-l2=""
-l3="---------------------------------------------------------------------------"
-l4="         CPU Name: $cpuname"
+echo $TITLE
+echo "CPU Name: $cpuname"
 if $hyper ; then
-  l5="        CPU Cores: $Number_CPUS ($threads with Hyper-Threading)"
+  echo "CPU Cores: $Number_CPUS ($threads with Hyper-Threading)"
 else
-  l5="        CPU Cores: $Number_CPUS"
+  echo "CPU Cores: $Number_CPUS"
 fi
-l6="        CPU Speed: $freq" 
-l7="      Speed Range: $lowest to $highest"
-l8="---------------------------------------------------------------------------"
-print_color 1 0 7 0 8 "$l1" "$l2" "$l3" "$l4" "$l5" "$l6" "$l7" "$l8"
-l1="         Governor: $policy"
-l2="   Your $totopt Options: $govern"
-l3="---------------------------------------------------------------------------"
-l4=""
-l5="---------------------------------------------------------------------------"
-print_color 9 0 7 0 5 "$l1" "$l2" "$l3" "$l4" "$l5"
-l1=" Please make your selection, S=Set Governor or Q=Quit (S/Q): "
-print_color 12 7 6 1 1 "$l1"
+echo "CPU Speed: $freq"
+echo "Speed Range: $lowest to $highest"
+echo "Governor: $policy"
+echo "Your $totopt Options: $govern"
+echo " Please make your selection, S=Set Governor or Q=Quit (S/Q): "
+echo "$l1"
 }
 
 #
@@ -308,7 +238,6 @@ which cpufreq-info > /dev/null
 Exit_Code=$?
 
 if [ $(( Exit_Code )) -ge 1 ] ; then
-  tput clear
   echo "The CPU frequency Utilities Package is not installed!"
   echo
   echo -n "Would you like to install the cpufrequtils package(y/N)?"
@@ -450,9 +379,6 @@ while $gui ; do
 #
 
   if [[ $CHOICE == [Ss] ]] ; then
-    tput clear
-    echo $TITLE
-    echo 
     echo "CPU Governor Speed Selection Menu"
     echo
     echo "CONSERVATIVE - Similar to ondemand, but more conservative "
@@ -492,8 +418,6 @@ while $gui ; do
 
         if [ "${governs[$CHOICE]}" == "userspace" ] ; then
 	  setfreq 1
-	  tput clear
-	  echo $TITLE
 	  echo 
 	  echo "CPU USERSPACE Speed Selection Menu"
 	  echo
@@ -530,10 +454,6 @@ while $gui ; do
       gui=false
     fi
 done
-
-show_gpl
-echo "Governor: $policy, CPU Speed: $freq"
-echo
 
 exit 0
 # End Of Script
