@@ -17,14 +17,13 @@
 
 #: Title       : cfu - CPU Frequency Utility
 #: Date Created: Wed Jun 22 17:03:27 CDT 2011
-#: Last Edit   : Sun Jul 18 2011
 #: Authors     : J. McDaniel, Oliver Kullmann
-#: Version     : 1.11
 #: Description : display and set CPU Frequency
 #: Options     : [sudo] cfu [-s #2 #3 #4]
 #: Notes       : cfu will ask to install cpufrequtils if not installed
 
-TITLE="CPU Frequency Utility - Version 1.10"
+version=1.11
+TITLE="CPU Frequency Utility - Version ${version}"
 
 declare -a governs
 declare -a spdsteps
