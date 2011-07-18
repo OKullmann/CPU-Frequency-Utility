@@ -165,7 +165,7 @@ echo "CPU Speed: $freq"
 echo "Speed Range: $lowest to $highest"
 echo "Governor: $policy"
 echo "Your $totopt Options: $govern"
-echo " Please make your selection, S=Set Governor or Q=Quit (S/Q): "
+echo " Please make your selection, \"s\" to set governor or \"q\" to quit: "
 echo "$l1"
 }
 
@@ -352,7 +352,7 @@ while $gui ; do
       echo "$counter) ${governs[$counter]}"
     done
     echo
-    echo -n "Enter the Governor Number to use [1-$((totopt))] (q=Quit):"
+    echo -n "Enter the Governor Number to use [1-$((totopt))] (q for quit):"
 # Check for Input option menu Automation
     if [[ $1 -le $totopt ]] && [[ $1 -gt 0 ]] ; then
       CHOICE=$1
