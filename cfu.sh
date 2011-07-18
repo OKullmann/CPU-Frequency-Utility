@@ -29,27 +29,27 @@ declare -a governs
 declare -a spdsteps
 
 #
-# CFU Help Display Function
+# CFU help display function
 #
 
 function help {
     cat << EOFHELP
                      $TITLE
-C.F.U. requires no Startup Options, However if you use them, your choices are:
+C.F.U. requires no startup options, However if you use them, your choices are:
 cfu [-h --help] ; shows this help <OR> cfu [-s [#2 #3 #4]] ; selects CPU speed
--s = Select Governor
-#2 = Governor's per menu options 1 through 5
-#3 = q to Quit cfu <OR> #3 = userspace Governor speed options 1 to max speed #
-#4 = q to Quit when Governor was userspace
-Examples: [sudo] cfu -s 5 q  <OR>  [sudo] cfu -s 2 1 q
-NOTES: To Change your CPU Governor and CPU Speed requires root user authority.
+-s = select governor
+#2 = governor's per menu options 1 through 5
+#3 = q to quit cfu or #3 = userspace governor speed options 1 to max speed #
+#4 = q to quit when governor was userspace
+Examples: [sudo] cfu -s 5 q  <or>  [sudo] cfu -s 2 1 q
+NOTES: To change your CPU governor and CPU speed requires root user authority.
        Using C.F.U. requires that you have installed the cpufrequtils package.
 EOFHELP
 exit 0
 }
 
 #
-# Display C.F.U. Help if requested.
+# Display CFU help if requested.
 #
 
 case "$1" in
@@ -61,7 +61,7 @@ esac
 #
 
 if [ $(($(find /sys/devices/system/cpu/cpu*/cpufreq 2>/dev/null | wc -l) + $(ls /sys/devices/system/cpu/cpufreq 2>/dev/null | wc -l))) -eq 0 ] ; then
-  echo "The cpufreq Utilities will not work on this PC.  You may want to uninstall the cpufrequtils package if installed!"
+  echo "The cpufreq utilities will not work on this PC.  You may want to uninstall the cpufrequtils package if installed!"
   exit 1
 fi
 
@@ -73,7 +73,7 @@ if [ -f /proc/cpuinfo ]; then
     cpuname=$(grep -m 1 "model name" /proc/cpuinfo | cut -d: -f2 | sed -e 's/^ *//' | sed -e 's/$//')
 fi
 
-# Remove Extra Spaces in $cpuname if they should exist
+# Remove extra spaces in $cpuname if they should exist
 
 cpuname=$(echo "$cpuname" |awk '{$1=$1}1' OFS=" ")
 
@@ -92,7 +92,7 @@ if [[ $(cat /proc/cpuinfo) = *siblings* ]] ; then
 fi
 
 #
-# Format RAW CPU Speed Display function
+# Format raw CPU speed display function
 #
 
 function form_speed {
@@ -103,7 +103,7 @@ function form_speed {
 }
 
 #
-# Locate Substring by space seperator in a long string  
+# Locate substring by space seperator in a long string
 #
 
 function sub_string {
@@ -122,8 +122,8 @@ function sub_string {
 }
 
 #
-# Load Substrings into an array ${governs[0]}
-# Uses user Function called sub_string
+# Load substrings into an array ${governs[0]}
+# Uses user function called sub_string
 #
 
 function savegovern {
@@ -150,30 +150,30 @@ return ${place}
 }
 
 #
-# Display Main Menu function
+# Display main menu function
 #
 
 function main_menu {
 echo $TITLE
-echo "CPU Name: $cpuname"
+echo "CPU name: $cpuname"
 if $hyper ; then
-  echo "CPU Cores: $Number_CPUS ($threads with Hyper-Threading)"
+  echo "CPU cores: $Number_CPUS ($threads with hyper-threading)"
 else
-  echo "CPU Cores: $Number_CPUS"
+  echo "CPU cores: $Number_CPUS"
 fi
-echo "CPU Speed: $freq"
-echo "Speed Range: $lowest to $highest"
+echo "CPU speed: $freq"
+echo "Speed range: $lowest to $highest"
 echo "Governor: $policy"
-echo "Your $totopt Options: $govern"
+echo "Your $totopt options: $govern"
 echo " Please make your selection, \"s\" to set governor or \"q\" to quit: "
 echo "$l1"
 }
 
 #
-# Set Speed Governor with cpufreq-set for ALL CPU's
+# Set speed governor with cpufreq-set for all CPU's
 #
 
-function govern_set { 
+function govern_set {
   countII=0
   while [[ countII -lt threads ]] ; do
     sudo cpufreq-set -c $((countII)) -g "$1"
@@ -183,7 +183,7 @@ function govern_set {
 }
 
 #
-# Set CPU speed when governor=userspace with cpufreq-set for ALL CPU's
+# Set CPU speed when governor=userspace with cpufreq-set for all CPU's
 #
 
 function setfreq {
@@ -224,7 +224,7 @@ install=${!install}
 which cpufreq-info > /dev/null
 Exit_Code=$?
 if [ $(( Exit_Code )) -ge 1 ] ; then
-  echo "The CPU frequency Utilities Package is not installed!"
+  echo "The CPU frequency utilities package is not installed!"
   echo
   echo -n "Would you like to install the cpufrequtils package(y/N)?"
   read CHOICE
@@ -236,35 +236,35 @@ if [ $(( Exit_Code )) -ge 1 ] ; then
 fi
 
 #
-# Main Program Starts Here *****************************************
+# Main program starts here *****************************************
 #
 gui=true
 while $gui ; do
 #
-# Find Active CPU Speed - cpufreq-info -f
+# Find active CPU speed - cpufreq-info -f
 #
   freq=$(cpufreq-info -f)
   form_speed "$freq"
   freq=$formed
 #
-# Find Lowest Speed / Highest Speed / CPU Speed Policy - cpufreq-info -p
+# Find lowest speed / highest speed / CPU speed policy - cpufreq-info -p
 #
   rang=$(cpufreq-info -p)
   savegovern "$rang"
 #
-# Set Lowest CPU Speed
+# Set lowest CPU speed
 #
   lowest="${governs[1]}"
   form_speed "$lowest"
   lowest=$formed
 #
-# Set Highest CPU Speed
+# Set highest CPU speed
 #
   highest="${governs[2]}"
   form_speed "$highest"
   highest=$formed
 #
-# Set CPU Speed Policy
+# Set CPU speed policy
 #
   policy="${governs[3]}"
   policy=$(echo $policy | tr '[a-z]' '[A-Z]')
@@ -279,9 +279,9 @@ while $gui ; do
     cpuspd=$(cpufreq-info -c 0)
     cpuspd=${cpuspd%" available cpufreq governors"*}
     cpuspd=${cpuspd##*" available frequency steps: "}
-# Breakup Speeds found into an Array
-# Change all spaces to Underscore
-# Then Change all commas to spaces
+# Breakup speeds found into an array
+# Change all spaces to underscore
+# Then change all commas to spaces
     cpuspd=$(echo $cpuspd | tr ' ' '_')
     cpuspd=$(echo $cpuspd | tr ',' ' ')
   else
@@ -291,7 +291,7 @@ while $gui ; do
   savegovern "$cpuspd"
   totspd="$?"
 # Move array values from governs to spdsteps
-# Change all Underscores to spaces
+# Change all underscores to spaces
 # Trim off excess spaces
   ffile=false
   counter=0
@@ -308,7 +308,7 @@ while $gui ; do
     let totspd=totspd-1
   fi
 #
-# Policy Selections cpufreq-info -g
+# Policy selections cpufreq-info -g
 #
   govern=$(cpufreq-info -g)
   savegovern "$govern"
@@ -316,10 +316,10 @@ while $gui ; do
   govern=$(echo $govern | tr '[a-z]' '[A-Z]')
   govern=$(echo $govern | tr ' ' ',')
 #
-# Show Main Menu and request user input
+# Show main menu and request user input
 #
   main_menu
-# Check for Input option menu Automation
+# Check for input option menu automation
   if [ "$1" == "-s" -o "$1" == "-S" ] ; then
     CHOICE="s"
     shift
@@ -331,20 +331,20 @@ while $gui ; do
     fi
   fi
 #
-# CPU Speed Governor Selection
+# CPU speed governor selection
 #
   if [[ $CHOICE == [Ss] ]] ; then
-    echo "CPU Governor Speed Selection Menu"
+    echo "CPU governor speed selection menu"
     echo
-    echo "CONSERVATIVE - Similar to ondemand, but more conservative "
+    echo "CONSERVATIVE - similar to ondemand, but more conservative "
     echo "(clock speed changes are more graceful)."
-    echo "USERSPACE - Manually configured clock speeds by user."
-    echo "POWERSAVE - Runs the CPU at minimum speed." 
-    echo "ONDEMAND - Dynamically increases/decreases the CPU(s)"
+    echo "USERSPACE - manually configured clock speeds by user."
+    echo "POWERSAVE - runs the CPU at minimum speed."
+    echo "ONDEMAND - dynamically increases/decreases the CPU(s)"
     echo "clock speed based on system load."
-    echo "PERFORMANCE - Runs the CPU(s) at maximum clock speed." 
+    echo "PERFORMANCE - runs the CPU(s) at maximum clock speed."
     echo
-    echo "The Active Governor is: $policy"
+    echo "The active governor is: $policy"
     echo
     counter=0
     while [[ counter -lt totopt ]] ; do
@@ -352,8 +352,8 @@ while $gui ; do
       echo "$counter) ${governs[$counter]}"
     done
     echo
-    echo -n "Enter the Governor Number to use [1-$((totopt))] (q for quit):"
-# Check for Input option menu Automation
+    echo -n "Enter the governor number to use [1-$((totopt))] (q for quit):"
+# Check for input option menu automation
     if [[ $1 -le $totopt ]] && [[ $1 -gt 0 ]] ; then
       CHOICE=$1
       shift
@@ -364,12 +364,12 @@ while $gui ; do
       if [[ $CHOICE -le $counter ]] && [[ $CHOICE -gt 0 ]]; then
         govern_set "${governs[$CHOICE]}"
 #
-# CPU Speed Selection when Governor is set to userspace
+# CPU speed selection when governor is set to userspace
 #
         if [ "${governs[$CHOICE]}" == "userspace" ] ; then
 	  setfreq 1
 	  echo 
-	  echo "CPU USERSPACE Speed Selection Menu"
+	  echo "CPU USERSPACE speed selection menu"
 	  echo
 	  counter=0
 	  while [[ counter -lt totspd ]] ; do
@@ -377,8 +377,8 @@ while $gui ; do
 	    echo "$counter) ${spdsteps[$counter]}"
 	  done
           echo 
-	  echo -n "Enter the CPU Speed Number to use [1-$((totspd))]:"
-# Check for Input option menu Automation
+	  echo -n "Enter the CPU speed number to use [1-$((totspd))]:"
+# Check for input option menu automation
 	  if [[ $1 -le $totspd ]] && [[ $1 -gt 0 ]] ; then
 	    CHOICE=$1
 	    shift
