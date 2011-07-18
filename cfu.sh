@@ -249,8 +249,8 @@ while $gui ; do
 #
 # Find lowest speed / highest speed / CPU speed policy - cpufreq-info -p
 #
-  rang=$(cpufreq-info -p)
-  savegovern "$rang"
+  range_output=$(cpufreq-info -l)
+  savegovern "${range_output}"
 #
 # Set lowest CPU speed
 #
@@ -266,6 +266,8 @@ while $gui ; do
 #
 # Set CPU speed policy
 #
+  policy_output=$(cpufreq-info -p)
+  savegovern "${policy_output}"
   policy="${governs[3]}"
   policy=$(echo $policy | tr '[a-z]' '[A-Z]')
 #
