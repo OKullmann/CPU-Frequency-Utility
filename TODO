@@ -1,0 +1,21 @@
+Oliver Kullmann, 20.7.2011 (Swansea)
+-----------------------------------------------
+
+1) Make it a true command-line tool
+
+Remove all interaction, and simplify usage.
+
+Modes of usage:
+
+a) "cfu.sh"
+prints out all information and exits.
+
+b) "cfu.sh --help", "cfu.sh -h"
+
+c) "cfu.sh --version", "cfu.sh -v"
+
+d) "cfu.sh x" sets it to governor number x
+
+e) "cfu.sh u x" sets it to governor USERSPACE with number x
+
+
