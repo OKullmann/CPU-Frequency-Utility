@@ -18,7 +18,7 @@
 #: Title       : cfu - CPU Frequency Utility
 #: Date Created: Wed Jun 22 17:03:27 CDT 2011
 #: Authors     : J. McDaniel, Oliver Kullmann
-#: Description : display and set CPU Frequency
+#: Description : display and set CPU frequency
 #: Options     : [sudo] cfu [-s #2 #3 #4]
 #: Notes       : cfu will ask to install cpufrequtils if not installed
 
@@ -81,7 +81,7 @@ fi
 cpuname=$(echo "$cpuname" |awk '{$1=$1}1' OFS=" ")
 
 #
-# Find out number of CPU cores, Hyper-threading will double this number
+# Find out number of CPU cores, hyper-threading will double this number
 #
 
 threads=$(getconf _NPROCESSORS_ONLN)
@@ -279,7 +279,7 @@ while $gui ; do
 # See if scaling_available_frequencies file is present for usage bu C.F.U.
   freqfile="/sys/devices/system/cpu/cpu0/cpufreq/scaling_available_frequencies"
   if [ ! -e "$freqfile" ] ; then
-# Locate Just speed Listing Sub-string for CPU 0 if above file not found
+# Locate just speed Listing Sub-string for CPU 0 if above file not found
     ffile=false
     cpuspd=$(cpufreq-info -c 0)
     cpuspd=${cpuspd%" available cpufreq governors"*}
