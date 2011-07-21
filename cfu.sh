@@ -22,6 +22,9 @@
 #: Options     : [sudo] cfu [-s #2 #3 #4]
 #: Notes       : cfu will ask to install cpufrequtils if not installed
 
+# set -o errexit
+# set -o nounset
+
 version=1.11
 TITLE="CPU Frequency Utility - Version ${version}"
 

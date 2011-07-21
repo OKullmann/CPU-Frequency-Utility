@@ -19,3 +19,14 @@ d) "cfu.sh x" sets it to governor number x
 e) "cfu.sh u x" sets it to governor USERSPACE with number x
 
 
+2) Use nounset
+
+Variable ffile in function savegovern is used undefined.
+Perhaps that function should come in two versions.
+One should also specify this function.
+The function looks too complicated.
+
+
+3) Perhaps use errexit
+
+Where is the first non-zero exit code?
