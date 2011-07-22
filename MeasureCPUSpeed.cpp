@@ -9,6 +9,9 @@ License, or any later version. */
   \file System/ComplexitySystem/MeasureCPUSpeed.cpp
   \brief Application to measure CPU speed for simple operations
 
+  Needs the Boost library installed.
+  Compile with "g++ -O3 -o MeasureCPUSpeed MeasureCPUSpeed.cpp".
+
   <ul>
    <li> One parameter is accepted, the number N of loop-iterations until a time
    measurement is printed; default value is 10^9. </li>
